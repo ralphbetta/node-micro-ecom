@@ -25,7 +25,7 @@ class Server {
         const PORT = process.env.PORT || 8080;
 
         const server = app.listen(PORT, () => {
-            console.log(`Authentication Service running at http://127.0.0.1:${PORT}`);
+            console.log(`Reporting Service running at http://127.0.0.1:${PORT}`);
          /*----------- SOCKET CONFIGURATION START ----------------*/
 
         });
