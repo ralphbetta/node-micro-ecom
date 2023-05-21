@@ -1,0 +1,21 @@
+// Setup
+npm init -y
+touch .env
+mkdir config controller middleware model routes 
+
+---------------------------------- For mongodb DB Service
+npm install express jsonwebtoken amqplib bcrypt mongoose dotenv mongodb-memory-server
+---------------------------------- For Sequelize DB Service
+npm install express sequelize mysql2 cors dotenv express-validator jsonwebtoken amqplib bcrypt nodemailer
+---------------------------------- For Optional
+npm i socket.io nodemailer --save
+
+### Here's an example of how you can create and run a migration using Sequelize CLI:
+>> sudo npm install -g sequelize-cli
+>> sequelize migration:create --name=add_ip_address_column
+>> sequelize init
+>> sequelize db:migrate
+
+----------------  TO SEED DATA    -----------------
+>> sequelize seed:generate --name=seed_column_data
+>> sequelize db:seed:all

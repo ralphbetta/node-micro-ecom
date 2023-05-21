@@ -1,0 +1,13 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/auth-service/node_modules
+/product-service/node_modules
+/order-service/node_modules
+/.pnp
+.pnp.js
+/auth-service/.env
+/product-service/.env
+/order-service/.env
+.env
+/node_modules
