@@ -58,7 +58,10 @@ class UserController {
         /*------- Validate Response ----------------*/
         UserController.sendOTP(req);
 
-        res.status(201).json(user);
+        const {username, email} = user;
+        const response = {username, email};
+
+        return res.status(201).json({ error: false, message: 'User Created', data: response});
       })
       .catch((error) => {
         console.error(error);
