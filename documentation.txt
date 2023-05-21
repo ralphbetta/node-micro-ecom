@@ -1,10 +1,10 @@
 // Setup
 npm init -y
-touch .env
-mkdir config controller middleware model routes 
+touch .env .env.example index.js
+mkdir config controller middleware model routes server
 
 ---------------------------------- For mongodb DB Service
-npm install express jsonwebtoken amqplib bcrypt mongoose dotenv mongodb-memory-server
+npm install express cors jsonwebtoken amqplib bcrypt mongoose dotenv mongodb-memory-server
 ---------------------------------- For Sequelize DB Service
 npm install express sequelize mysql2 cors dotenv express-validator jsonwebtoken amqplib bcrypt nodemailer
 ---------------------------------- For Optional
