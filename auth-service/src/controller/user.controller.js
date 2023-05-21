@@ -93,7 +93,7 @@ class UserController {
       });
   }
 
-
+  
   /*----------------------------------------
   This Function can solve all update issh
   -----------------------------------------*/
@@ -119,9 +119,7 @@ class UserController {
 
   static async login(req, res) {
 
-    const { username, email, password } = req.body;
-
-    UserController.emitNotification(req);
+    const {email} = req.body;
   
 
     User.findOne({ where: { email: email } })

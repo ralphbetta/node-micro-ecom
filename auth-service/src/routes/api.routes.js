@@ -12,10 +12,10 @@ const tokenMiddleware  = require('../middleware/jwt.middleware');
 
 
 /* ------------------------------- ACCOUNT ROUTERS ------------------------------- */
-router.get('/auth/get-user', tokenMiddleware.verifyToken, UserController.getAllUsers);
+router.get('/auth/get-users', tokenMiddleware.verifyToken, UserController.getAllUsers);
+router.get('/auth/:id', UserController.getUserById);
 router.post('/auth/register', UserController.createUser);
-router.post('/account/login', UserController.login);
-
+router.post('/auth/login', UserController.login);
 
 
 module.exports = router;
