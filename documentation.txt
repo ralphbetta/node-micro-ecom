@@ -1,7 +1,8 @@
 // Setup
 npm init -y
 touch .env .env.example index.js
-mkdir config controller middleware model routes server
+mkdir src
+mkdir src/config src/controller src/middleware src/model src/routes src/server
 
 ---------------------------------- For mongodb DB Service
 npm install express cors jsonwebtoken amqplib bcrypt mongoose dotenv mongodb-memory-server

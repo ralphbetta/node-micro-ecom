@@ -5,10 +5,15 @@
 /product-service/node_modules
 /order-service/node_modules
 /payment-service/node_modules
+/reporting-service/node_modules
+/notification-service/node_modules
 /.pnp
 .pnp.js
 /auth-service/.env
 /product-service/.env
 /order-service/.env
+/payment-service/.env
+/reporting-service/.env
+/notification-service/.env
 .env
 /node_modules
