@@ -1,4 +1,5 @@
 
+const {Order} = require('./database/index');
 
 module.exports = (sequelize, DataTypes) => {
 
@@ -15,14 +16,20 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       defaultValue: 'pending'
+    },
+
+    orderId: {
+      type: DataTypes.STRING,
+      allowNull: false,
     }
   }, {
+  
     timestamps: true
   });
   
   // Define the association between Payment and Order
-  Payment.belongsTo(Order, { foreignKey: 'orderId' });
-  Order.hasOne(Payment, { foreignKey: 'orderId' });
+  // Payment.belongsTo(Order, { foreignKey: 'orderId' });
+  // Order.hasOne(Payment, { foreignKey: 'orderId' });
 
   // This will ensure the beforeUpdate hook is registered
   //User.sync();

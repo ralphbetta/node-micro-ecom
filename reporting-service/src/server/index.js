@@ -2,6 +2,8 @@ const express = require("express");
 const cors = require("cors");
 require('dotenv').config();
 const app = express();
+const { db } = require("../model/database/index");
+const PORT = process.env.PORT || 8080;
 
 class Server {
 
@@ -19,14 +21,24 @@ class Server {
 
         app.use(cors(corsOptions));
 
+
+        /*----------- INITIALIZE DATABASE ----------------*/
+        db.sequelize.sync()
+        .then(() => {
+            console.log("Synced db.");
+        })
+        .catch((err) => {
+            console.log("Failed to sync db: " + err.message);
+        });
+
+
         /*----------- DEFAULT ROUTE ----------------*/
-        app.get("/", (req, res) => { res.json({ message: "Welcome to Node App" }) });
+        app.get("/", (req, res) => { res.json({ message: "Welcome Authentication Service Route" }) });
 
-        const PORT = process.env.PORT || 8080;
-
+      
         const server = app.listen(PORT, () => {
             console.log(`Reporting Service running at http://127.0.0.1:${PORT}`);
-         /*----------- SOCKET CONFIGURATION START ----------------*/
+         /*-----------xxx SOCKET CONFIGURATION START ----------------*/
 
         });
 
