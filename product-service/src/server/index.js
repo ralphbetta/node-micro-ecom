@@ -4,6 +4,7 @@ require('dotenv').config();
 const app = express();
 const { db } = require("../model/database/index");
 const PORT = process.env.PORT || 8080;
+const IndexRoute  = require('../routes/index');
 
 class Server {
 
@@ -35,6 +36,7 @@ class Server {
         /*----------- DEFAULT ROUTE ----------------*/
         app.get("/", (req, res) => { res.json({ message: "Welcome Product Service Route" }) });
 
+        IndexRoute(app).register();
       
         const server = app.listen(PORT, () => {
             console.log(`Product Service running at http://127.0.0.1:${PORT}`);
