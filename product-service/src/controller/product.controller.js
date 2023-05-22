@@ -74,8 +74,11 @@ class ProductController {
         return res.status(201).json({ error: false, message: 'Product Created', data: response });
       })
       .catch((error) => {
+        if (error.name === 'SequelizeUniqueConstraintError') {
+          return res.status(400).json({ error: true, message: 'Product with the same name already exists' });
+        }
         console.error(error);
-        res.status(500).json({ error: 'Server Error' });
+        return res.status(500).json({ error: true, message: 'Internal Server Error' });
       });
 
   }
