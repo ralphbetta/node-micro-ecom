@@ -193,6 +193,33 @@ class UserController {
     }
   }
 
+  static verifyToken(req, res){
+    const id = req.params.id;
+    AccessToken.findOne({where: {user_id:id}}).then((response)=>{
+ 
+     if(!response){
+       return res.status(404).json({ error: false, message: 'User Not Found', data: {}});
+     }
+     const {user_id, client_id, token, expires_at } = response;
+ 
+     const currentDate = new Date();
+     const expiresAt = new Date(expires_at);
+     
+     if (expiresAt < currentDate) {
+       return res.status(401).json({ message: 'Access token has expired' });
+     }
+     
+     // Access token is valid
+     return res.status(200).json({ message: 'Access token is valid' });
+ 
+ 
+    }).catch((error) => {
+     return res.status(500).json({ message: 'Internal server error' });
+   });
+ 
+   }
+ 
+
   static async sendOTP(req) {
 
     const token = "NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyZGF0YSI6eyJlbWFpbCI6InVzZXI";
@@ -225,7 +252,6 @@ class UserController {
         return res.status(500).json({ error: 'Server Error' });
       });
   }
-
 
   static emitNotification(req) {
     const message = "this message is sent during login to another room";
