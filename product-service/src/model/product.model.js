@@ -20,6 +20,9 @@ module.exports = (sequelize, DataTypes) => {
       }
     });
 
+
+    // TODO Include Rating
+
   // This will ensure the beforeUpdate hook is registered
   //User.sync();
 
