@@ -208,10 +208,27 @@ class UserController {
      if (expiresAt < currentDate) {
        return res.status(401).json({ message: 'Access token has expired' });
      }
-     
-     // Access token is valid
-     return res.status(200).json({ message: 'Access token is valid' });
- 
+
+  
+    //---------- fetch and return updated Info ---------------------
+     User.findOne({ where: { id: id } }).then((user) => {
+
+       if (!user) {
+          return res.status(404).json({ error: true, message: 'User not found', data: {}});
+       }
+
+       const userData = {
+         email: user.email,
+         username: user.username,
+         id: user.id,
+         approved: user.is_approved,
+         type: user.account_type,
+       };
+
+        //----------------------- Access token is valid ---------------------------
+        return res.status(200).json({ error: false, message: "Access token is valid", data: userData});
+
+     });
  
     }).catch((error) => {
      return res.status(500).json({ message: 'Internal server error' });
