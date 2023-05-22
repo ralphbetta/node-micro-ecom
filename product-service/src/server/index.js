@@ -4,7 +4,8 @@ require('dotenv').config();
 const app = express();
 const { db } = require("../model/database/index");
 const PORT = process.env.PORT || 8080;
-const IndexRoute  = require('../routes/index');
+const IndexRoute = require('../routes/index');
+const RabbitMQ = require('../utills/rabbitmq.service');
 
 class Server {
 
@@ -25,22 +26,25 @@ class Server {
 
         /*----------- INITIALIZE DATABASE ----------------*/
         db.sequelize.sync()
-        .then(() => {
-            console.log("Synced db.");
-        })
-        .catch((err) => {
-            console.log("Failed to sync db: " + err.message);
-        });
+            .then(() => {
+                console.log("Synced db.");
+            })
+            .catch((err) => {
+                console.log("Failed to sync db: " + err.message);
+            });
 
 
         /*----------- DEFAULT ROUTE ----------------*/
         app.get("/", (req, res) => { res.json({ message: "Welcome Product Service Route" }) });
 
         IndexRoute(app).register();
-      
+
+        /*----------- REGISTERED RABBITMQ ----------------*/
+        RabbitMQ.connect();
+
         const server = app.listen(PORT, () => {
             console.log(`Product Service running at http://127.0.0.1:${PORT}`);
-         /*-----------xxx SOCKET CONFIGURATION START ----------------*/
+            /*-----------xxx SOCKET CONFIGURATION START ----------------*/
 
         });
 
