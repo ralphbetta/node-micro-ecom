@@ -4,7 +4,7 @@ const rabitConfig = require('../config/rabbitMQ.config');
 
 class RabbitMQ {
 
-    constructor() { xg
+    constructor() {
           
         this.channel = null;
         this.connection = null;
@@ -32,6 +32,7 @@ class RabbitMQ {
     }
 
     static async readFromQueue(queueName) {
+
         this.channel.consume(queueName, data => {
             let response = JSON.parse(data.content);
              this.channel.ack(data);

@@ -34,9 +34,6 @@ class Server {
             });
 
 
-        /*----------- Simulation of RABBIT-MQ --------------*/
-
-
         /*----------- REGISTERED RABBIT-MQ ----------------*/
         var channel;
 

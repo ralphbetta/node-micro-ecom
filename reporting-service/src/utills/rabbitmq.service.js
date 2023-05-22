@@ -51,7 +51,7 @@ class RabbitMQ {
             channel.ack(response); //acknowledge the item in the queue
             console.log(data);
             if (info.type === 'TESTPRODUCT') {
-                
+
                 RabbitMQ.sendToQueue("PRODUCT", { "status": `Seen. Item sent: ${data}` }
                 );
             }

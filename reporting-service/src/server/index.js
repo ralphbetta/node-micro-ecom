@@ -37,15 +37,10 @@ class Server {
 
         /*-----------Simulation of rabitMQ--------------*/
 
-        const connection = RabbitMQ.connect('REPORTINGSERVICEII').then((channel) => {
+        const connection = RabbitMQ.connect('REPORTINGSERVICE').then((channel) => {
 
              RabbitMQ.monitorQueues(channel);
-         })
-       
-
-        // connection.then(() => {
-        //     RabbitMQ.monitorQueues(xyz);   
-        // });
+         });
 
 
 
