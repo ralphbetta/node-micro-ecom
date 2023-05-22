@@ -54,7 +54,7 @@ class ProductController {
 
   static createProduct(req, res) {
 
-        /*--------------------- Validate Request ----------------*/
+    /*--------------------- Validate Request ----------------*/
 
     validationResult(req);
 
@@ -68,10 +68,10 @@ class ProductController {
     Product.create(req.body)
       .then((product) => {
 
-        const {name, price, description, quantity} = product;
-        const response =  {name, price, description, quantity};
+        const { id, name, price, description, quantity } = product;
+        const response = { name, price, description, quantity, id };
 
-        return res.status(201).json({ error: false, message: 'product Created', data: response});
+        return res.status(201).json({ error: false, message: 'Product Created', data: response });
       })
       .catch((error) => {
         console.error(error);
@@ -82,19 +82,19 @@ class ProductController {
 
   static updateProductQuantity(req, res) {
     const { id } = req.params;
-  
+
     Product.findByPk(id)
       .then((product) => {
         if (!product) {
-          return res.status(404).json({error: true, message: 'Product Not Found', data: {}});
+          return res.status(404).json({ error: true, message: 'Product Not Found', data: {} });
         }
-        
+
         product.quantity = req.body.quantity;
-       
+
         return product.save();
       })
       .then((response) => {
-        return res.status(200).json({ error: false, message: 'product Updated', data: response});
+        return res.status(200).json({ error: false, message: 'product Updated', data: response });
       })
       .catch((error) => {
         console.error(error);
@@ -102,7 +102,7 @@ class ProductController {
       });
   }
 
-  
+
   /*----------------------------------------
   This Function can solve all update issh
   -----------------------------------------*/
@@ -112,7 +112,7 @@ class ProductController {
     Product.findByPk(id)
       .then((product) => {
         if (!product) {
-          return res.status(404).json({error: true, message: 'Product Not Found', data: {}});
+          return res.status(404).json({ error: true, message: 'Product Not Found', data: {} });
         }
         product.update(req.body);
 
@@ -134,10 +134,10 @@ class ProductController {
     Product.findByPk(id)
       .then((product) => {
         if (!product) {
-          return res.status(404).json({error: true, message: 'Product Not Found', data: {}});
+          return res.status(404).json({ error: true, message: 'Product Not Found', data: {} });
         }
         product.destroy().then(() => {
-          return res.status(200).json({ error: false, message: 'product Deleted', data: {}});
+          return res.status(200).json({ error: false, message: 'product Deleted', data: {} });
         });
       }).catch((error) => {
         return res.status(500).json({ error: true, message: 'Server Error' });
