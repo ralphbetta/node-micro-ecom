@@ -4,7 +4,8 @@ require('dotenv').config();
 const app = express();
 const { db } = require("../model/database/index");
 const PORT = process.env.PORT || 8080;
-const IndexRoute  = require('../routes/index');
+const IndexRoute = require('../routes/index');
+const RabbitMQ = require('../utills/rabbitmq.service');
 
 class Server {
 
@@ -33,12 +34,16 @@ class Server {
             });
 
 
+
         /*----------- DEFAULT ROUTE ----------------*/
         app.get("/", (req, res) => { res.json({ message: "Welcome Authentication Service Route" }) });
 
 
         /*----------- REGISTERED ROUTE ----------------*/
         IndexRoute(app).register();
+
+        /*----------- REGISTERED RABBITMQ ----------------*/
+        RabbitMQ.connect();
 
 
         const server = app.listen(PORT, () => {
