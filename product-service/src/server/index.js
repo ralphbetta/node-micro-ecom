@@ -6,7 +6,7 @@ const { db } = require("../model/database/index");
 const PORT = process.env.PORT || 8080;
 const IndexRoute = require('../routes/index');
 const RabbitMQ = require('../utills/rabbitmq.service');
-
+const rabitConfig = require('../config/rabbitMQ.config');
 class Server {
 
     static boot() {
@@ -34,13 +34,53 @@ class Server {
             });
 
 
+        /*----------- Simulation of RABBIT-MQ --------------*/
+
+
+        /*----------- REGISTERED RABBIT-MQ ----------------*/
+        var channel;
+
+        RabbitMQ.connect('PRODUCT').then((response) => {
+            channel = response;
+        });
+
+
+        app.get("/sendtoreportpro", async (req, res) => {
+
+            // Send a JSON message
+            const jsonMessage = {
+                type: 'TESTPRODUCT',
+                data: {
+                    name: 'John',
+                    age: 30,
+                },
+            };
+
+            RabbitMQ.sendToQueue("REPORTINGSERVICE", jsonMessage);
+
+
+            channel.consume('PRODUCT', data => {
+                const parsedResponse = JSON.parse(data.content);
+                console.log("Returned response:", parsedResponse);
+                channel.ack(data);
+            });
+
+
+            res.json({ message: "Welcome Product Service Route" })
+
+        });
+
+
+        /*-----------------------------------------------*/
+
+
         /*----------- DEFAULT ROUTE ----------------*/
-        app.get("/", (req, res) => { res.json({ message: "Welcome Product Service Route" }) });
+        app.get("/", (req, res) => {
+            res.json({ message: "Welcome Product Service Route" })
+        });
 
         IndexRoute(app).register();
 
-        /*----------- REGISTERED RABBITMQ ----------------*/
-        RabbitMQ.connect();
 
         const server = app.listen(PORT, () => {
             console.log(`Product Service running at http://127.0.0.1:${PORT}`);

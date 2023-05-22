@@ -5,6 +5,9 @@ const app = express();
 const { db } = require("../model/database/index");
 const PORT = process.env.PORT || 8080;
 
+const RabbitMQ = require('../utills/rabbitmq.service');
+const rabitConfig = require('../config/rabbitMQ.config');
+
 class Server {
 
     static boot() {
@@ -24,21 +27,35 @@ class Server {
 
         /*----------- INITIALIZE DATABASE ----------------*/
         db.sequelize.sync()
-        .then(() => {
-            console.log("Synced db.");
-        })
-        .catch((err) => {
-            console.log("Failed to sync db: " + err.message);
-        });
+            .then(() => {
+                console.log("Synced db.");
+            })
+            .catch((err) => {
+                console.log("Failed to sync db: " + err.message);
+            });
+
+
+        /*-----------Simulation of rabitMQ--------------*/
+
+        const connection = RabbitMQ.connect('REPORTINGSERVICEII').then((channel) => {
+
+             RabbitMQ.monitorQueues(channel);
+         })
+       
+
+        // connection.then(() => {
+        //     RabbitMQ.monitorQueues(xyz);   
+        // });
+
 
 
         /*----------- DEFAULT ROUTE ----------------*/
         app.get("/", (req, res) => { res.json({ message: "Welcome Authentication Service Route" }) });
 
-      
+
         const server = app.listen(PORT, () => {
             console.log(`Reporting Service running at http://127.0.0.1:${PORT}`);
-         /*-----------xxx SOCKET CONFIGURATION START ----------------*/
+            /*-----------xxx SOCKET CONFIGURATION START ----------------*/
 
         });
 
