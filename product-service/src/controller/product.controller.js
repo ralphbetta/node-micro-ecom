@@ -88,10 +88,7 @@ class ProductController {
         if (!product) {
           return res.status(404).json({error: true, message: 'Product Not Found', data: {}});
         }
-        // product.name = req.body.name;
-        // product.price = req.body.price;
-        // product.description = req.body.description;
-
+        
         product.quantity = req.body.quantity;
        
         return product.save();
