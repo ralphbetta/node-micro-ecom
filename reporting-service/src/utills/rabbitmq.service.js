@@ -52,6 +52,8 @@ class RabbitMQ {
                 ProductController.createProduct(data);
                 RabbitMQ.sendToQueue("PRODUCT", { "status": `Seen. Item sent: ${data}` }
             );
+            }else if (info.type == 'UPDATEPRODUCT'){
+                ProductController.updateProduct(data);
             }
          
         });

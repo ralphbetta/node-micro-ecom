@@ -72,55 +72,36 @@ class ProductController {
     });
   }
 
-  static updateProductQuantity(req, res) {
-    const { id } = req.params;
-
-    Product.findByPk(id)
-      .then((product) => {
-        if (!product) {
-          return res.status(404).json({ error: true, message: 'Product Not Found', data: {} });
-        }
-
-        product.quantity = req.body.quantity;
-
-        return product.save();
-      })
-      .then((response) => {
-        return res.status(200).json({ error: false, message: 'product Updated', data: response });
-      })
-      .catch((error) => {
-        console.error(error);
-        res.status(500).json({ error: 'Server Error' });
-      });
-  }
-
 
   /*----------------------------------------
   This Function can solve all update issh
   -----------------------------------------*/
 
-  static specificProductUpdate(req, res) {
-    const { id } = req.params;
-    Product.findByPk(id)
+  static updateProduct(data) {
+    data = JSON.parse(data);
+
+    const  id = data.id;
+
+    Product.findOne({where: {product_id: id}})
       .then((product) => {
         if (!product) {
-          return res.status(404).json({ error: true, message: 'Product Not Found', data: {} });
+          throw Error("Product not found in reporting service");
         }
-        product.update(req.body);
+        product.update(data);
 
         product.save().then((xyz) => {
-          return res.json(xyz);
+         console.log(xyz.dataValues)
         });
 
       })
       .catch((error) => {
-        res.status(500).json({ error: 'Server Error' });
+        throw Error("Internal Server Error");
       });
   };
 
 
 
-  static deleteProduct(req, res) {
+  static deleteProduct(data) {
     const { id } = req.params;
 
     Product.findByPk(id)

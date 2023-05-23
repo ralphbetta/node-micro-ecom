@@ -133,6 +133,20 @@ class ProductController {
         product.update(req.body);
 
         product.save().then((xyz) => {
+
+          const { id, name, price, description, quantity } = xyz;
+          const response = { name, price, description, quantity, id };
+
+          /*------------------ STREAM TO REPORTING SERVICE START----------------*/
+          
+          const jsonMessage = {
+            type: 'UPDATEPRODUCT',
+            data: response
+          };
+          RabbitMQ.sendToQueue("REPORTINGSERVICE", jsonMessage);
+
+          /*------------------ STREAM TO REPORTING SERVICE END----------------*/
+
           return res.json(xyz);
         });
 
