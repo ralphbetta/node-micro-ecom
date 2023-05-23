@@ -54,6 +54,9 @@ class RabbitMQ {
             );
             }else if (info.type == 'UPDATEPRODUCT'){
                 ProductController.updateProduct(data);
+            }else if (info.type == 'DELETEPRODUCT'){
+                console.log(`data seen for delete ${data}`);
+                ProductController.deleteProduct(data)
             }
          
         });

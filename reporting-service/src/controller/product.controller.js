@@ -102,19 +102,24 @@ class ProductController {
 
 
   static deleteProduct(data) {
-    const { id } = req.params;
+    data = JSON.parse(data);
 
-    Product.findByPk(id)
+    const  id = data.id;
+    
+    Product.findOne({where: {product_id: id}})
       .then((product) => {
         if (!product) {
-          return res.status(404).json({ error: true, message: 'Product Not Found', data: {} });
+          console.log('Product Not Found')
+          return;
         }
         product.destroy().then(() => {
-          return res.status(200).json({ error: false, message: 'product Deleted', data: {} });
+          console.log("product Deleted");
+          return;
         });
       }).catch((error) => {
-        return res.status(500).json({ error: true, message: 'Server Error' });
-      });
+        console.log("Server Error")
+        return;
+       });
   }
 
 

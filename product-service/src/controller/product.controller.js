@@ -138,7 +138,7 @@ class ProductController {
           const response = { name, price, description, quantity, id };
 
           /*------------------ STREAM TO REPORTING SERVICE START----------------*/
-          
+
           const jsonMessage = {
             type: 'UPDATEPRODUCT',
             data: response
@@ -163,10 +163,23 @@ class ProductController {
 
     Product.findByPk(id)
       .then((product) => {
+        
+        /*------------------ STREAM TO REPORTING SERVICE START----------------*/
+        const jsonMessage = {
+          type: 'DELETEPRODUCT',
+          data: { id: id }
+        };
+        RabbitMQ.sendToQueue("REPORTINGSERVICE", jsonMessage);
+        /*------------------ STREAM TO REPORTING SERVICE END----------------*/
+
+
         if (!product) {
           return res.status(404).json({ error: true, message: 'Product Not Found', data: {} });
         }
+
+
         product.destroy().then(() => {
+
           return res.status(200).json({ error: false, message: 'product Deleted', data: {} });
         });
       }).catch((error) => {
