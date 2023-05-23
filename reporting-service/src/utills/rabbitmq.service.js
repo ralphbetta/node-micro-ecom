@@ -2,6 +2,7 @@
 const amqp = require('amqplib');
 const rabitConfig = require('../config/rabbitMQ.config');
 const { response } = require('express');
+const ProductController = require('../controller/product.controller');
 
 class RabbitMQ {
 
@@ -20,9 +21,6 @@ class RabbitMQ {
     }
 
     static async sendToQueue(queueName, sentData) {
-        /*------------------------------
-        SEND THE ORDER FROM PRODUCT SERVICE TO QUEUE IN THE ORDER SERVICD
-        --------------------------------*/
         this.channel.sendToQueue(
             queueName,
             Buffer.from(
@@ -49,11 +47,11 @@ class RabbitMQ {
             const info = JSON.parse(response.content);
             const data = JSON.stringify(info.data);
             channel.ack(response); //acknowledge the item in the queue
-            console.log(data);
-            if (info.type === 'TESTPRODUCT') {
-
+            console.log(`this is the streamed ${data}`);
+            if (info.type === 'CREATEPRODUCT') {
+                ProductController.createProduct(data);
                 RabbitMQ.sendToQueue("PRODUCT", { "status": `Seen. Item sent: ${data}` }
-                );
+            );
             }
          
         });

@@ -5,7 +5,6 @@ const app = express();
 const { db } = require("../model/database/index");
 const PORT = process.env.PORT || 8080;
 const IndexRoute = require('../routes/index');
-const RabbitMQ = require('../utills/rabbitmq.service');
 
 class Server {
 
@@ -42,8 +41,7 @@ class Server {
         /*----------- REGISTERED ROUTE ----------------*/
         IndexRoute(app).register();
 
-        /*----------- REGISTERED RABBITMQ ----------------*/
-        RabbitMQ.connect();
+   
 
 
         const server = app.listen(PORT, () => {

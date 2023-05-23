@@ -11,7 +11,7 @@ class TokenService {
 
 
     static verifyToken = (req, res, next) => {
-        
+
         const token = req.headers['authorization']?.split(' ')[1];
         if (!token) {
             return res.status(401).json({ message: 'Authentication failed. Token missing.' });
@@ -26,13 +26,13 @@ class TokenService {
             console.log("verifying user toke....");
             console.log(url);
 
-            axios.get(url).then((response)=>{
+            axios.get(url).then((response) => {
                 console.log(response.data);
                 req.userData = response.data;
                 next();
             }).catch((error) => {
-                    console.log(error);
-                });
+                return res.status(500).json({ message: 'Authentication Internal Service Error' });
+            });
 
         } catch (err) {
             return res.status(401).json({ message: 'Authentication failed. Token invalid.' });

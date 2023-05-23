@@ -54,46 +54,22 @@ class ProductController {
       });
   }
 
-  static createProduct(req, res) {
 
-    /*--------------------- Validate Request ----------------*/
+  static createProduct(data) {
+    data = JSON.parse(data);
+  
+    const newProduct = new Product({
+        "name": data.name,
+        "price": data.price,
+        "description": data.description,
+        "quantity": data.quantity,
+        "product_id": data.id
 
-    validationResult(req);
-
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-
-
-    Product.create(req.body)
-      .then((product) => {
-
-        const { id, name, price, description, quantity } = product;
-        const response = { name, price, description, quantity, id };
-
-        /*------------------ STREAM TO REPORTING SERVICE START----------------*/
-        const jsonMessage = {
-          type: 'CREATEPRODUCT',
-          data: response
-        };
-
-        RabbitMQ.sendToQueue("REPORTINGSERVICE", jsonMessage);
-
-        /*------------------ STREAM TO REPORTING SERVICE END----------------*/
-
-
-        return res.status(201).json({ error: false, message: 'Product Created', data: response });
-      })
-      .catch((error) => {
-        if (error.name === 'SequelizeUniqueConstraintError') {
-          return res.status(400).json({ error: true, message: 'Product with the same name already exists' });
-        }
-        console.error(error);
-        return res.status(500).json({ error: true, message: 'Internal Server Error' });
       });
 
+    newProduct.save().then((result)=>{
+      console.log(result.dataValues);
+    });
   }
 
   static updateProductQuantity(req, res) {
