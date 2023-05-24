@@ -99,6 +99,26 @@ class ProductController {
       });
   };
 
+  static addRating(data) {
+    data = JSON.parse(data);
+    const { productId, userId, rating, review } = data;
+
+        Product.findOne({where: {product_id: id}}).then((product) => {
+        if (!product) {
+          return res.status(404).json({ error: 'Product not found' });
+        }
+        // Add the new rating to the 'rating' array
+        product.rating.push({ userId, rating, review });
+
+        product.save().then((response)=>{
+          return res.status(200).json({ message: 'Rating added successfully', response });
+        });
+      }).catch((error)=>{
+      console.error(error);
+      return res.status(500).json({ error: 'Server Error' });
+    })
+  }
+
 
 
   static deleteProduct(data) {
