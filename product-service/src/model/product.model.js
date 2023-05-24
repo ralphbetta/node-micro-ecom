@@ -18,7 +18,12 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
       defaultValue: 0
-    }
+    },
+    rating: {
+      type: DataTypes.ARRAY(DataTypes.JSONB),
+      allowNull: true,
+      defaultValue: [],
+    },
   });
 
 
