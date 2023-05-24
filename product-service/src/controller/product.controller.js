@@ -126,7 +126,7 @@ class ProductController {
           return res.status(400).json({ error: true, message: 'Product with the same name already exists' });
         }
         console.error(error);
-        return res.status(500).json({ error: true, message: 'Internal Server Error' });
+        return res.status(500).json({ error: error, message: 'Internal Server Error', });
       });
 
   }

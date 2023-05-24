@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: 0
     },
     rating: {
-      type: DataTypes.ARRAY(DataTypes.JSONB),
+      type: DataTypes.JSON,
       allowNull: true,
       defaultValue: [],
     },
