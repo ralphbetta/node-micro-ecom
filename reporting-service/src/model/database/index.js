@@ -20,8 +20,25 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-const Product = db.users = require("../product.model")(sequelize, Sequelize);
+const Product = db.product = require("../product.model")(sequelize, Sequelize);
 const Order = db.accesstokens = require("../order.model")(sequelize, Sequelize);
 const Payment = db.accesstokens = require("../payment.model")(sequelize, Sequelize);
+const User  = db.user = require("../user.model")(sequelize, Sequelize);
+const Rating = db.rating = require("../rating.model")(sequelize, Sequelize);
 
-module.exports = {db, Product, Order, Payment };
+//order
+Order.belongsTo(User, { foreignKey: 'userId' });
+User.hasMany(Order, { foreignKey: 'userId' });
+Order.hasMany(Product);
+
+// Product
+Product.hasMany(Rating, { foreignKey: 'productId' });
+Product.belongsTo(Order, { foreignKey: 'productId' });
+Rating.belongsTo(Product, { foreignKey: 'productId'});
+
+User.hasMany(Rating, {foreignKey: 'userId'});
+Rating.belongsTo(User);
+
+
+
+module.exports = {db, Product, Order, Payment, User, Rating };

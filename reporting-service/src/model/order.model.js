@@ -1,3 +1,5 @@
+const { Product } = require("./database");
+
 
 
 module.exports = (sequelize, DataTypes) => {
@@ -25,12 +27,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
   });
-
-
-  // Define the association between Order and Product
-  // Order.belongsToMany(Product, { through: 'OrderProducts' });
-  // Product.belongsToMany(Order, { through: 'OrderProducts' });
-
+  
   // This will ensure the beforeUpdate hook is registered
   //User.sync();
 

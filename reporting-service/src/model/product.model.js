@@ -1,3 +1,6 @@
+const model = require('../model/database/index');
+const Rating = require('../model/rating.model');
+
 module.exports = (sequelize, DataTypes) => {
   const Product = sequelize.define('Product', {
     name: {
@@ -26,6 +29,8 @@ module.exports = (sequelize, DataTypes) => {
     },
 
   });
+
+
 
   // This will ensure the beforeUpdate hook is registered
   //User.sync();

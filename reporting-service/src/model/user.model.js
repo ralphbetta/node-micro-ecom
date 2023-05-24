@@ -1,8 +1,7 @@
 
-const bcrypt = require('bcrypt');
+const model = require('../model/database/index');
 
 module.exports = (sequelize, Sequelize) => {
-    // Define the User model
     const User = sequelize.define('User', {
         id: {
             type: Sequelize.INTEGER,
@@ -16,8 +15,8 @@ module.exports = (sequelize, Sequelize) => {
         email: {
             type: Sequelize.STRING,
             unique: true,
-            validate:{
-                isEmail: {msg: "It must be a valid Email address"},
+            validate: {
+                isEmail: { msg: "It must be a valid Email address" },
             }
         },
         password: {
@@ -45,33 +44,6 @@ module.exports = (sequelize, Sequelize) => {
         token: {
             type: Sequelize.STRING,
         }
-    },
-        {
-            hooks: {
-                beforeCreate: async (user) => {
-                    console.log("hello");
-                    const hashedPassword = await bcrypt.hash(user.password, 10);
-                    user.password = hashedPassword;
-                },
-                beforeUpdate: async (user) => {
-
-                    if (user.changed('password')) {
-                        const hashedPassword = await bcrypt.hash(user.password, 10);
-                        user.password = hashedPassword;
-                    }
-                },
-            },
-            scopes: {
-                findAll: {
-                    attributes: { exclude: ['password'] },
-                },
-            },
-        }
-
-    );
-
-    User.beforeSave((user) => {
-        // Perform any required actions before updating the user
     });
 
     // This will ensure the beforeUpdate hook is registered

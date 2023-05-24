@@ -27,9 +27,6 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: true
   });
   
-  // Define the association between Payment and Order
-  // Payment.belongsTo(Order, { foreignKey: 'orderId' });
-  // Order.hasOne(Payment, { foreignKey: 'orderId' });
 
   // This will ensure the beforeUpdate hook is registered
   //User.sync();
