@@ -16,6 +16,7 @@ router.get('/product/get-product', tokenMiddleware.verifyToken, ProductControlle
 router.delete('/product/delete/:id', ProductController.deleteProduct);
 router.get('/product/:id', ProductController.getProductById);
 router.post('/product/create', tokenMiddleware.verifyToken, ProductController.createProduct);
+router.post('/product/rating', tokenMiddleware.verifyToken, ProductController.addRating);
 router.put('/product/update/:id', tokenMiddleware.verifyToken, ProductController.specificProductUpdate);
 
 
