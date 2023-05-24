@@ -23,11 +23,11 @@ class TokenService {
             const id = decoded.userdata.id;
             const url = `http://127.0.0.1:8585/api/auth/verify-token/${id}`;
 
-            console.log("verifying user toke....");
-            console.log(url);
+            // console.log("verifying user toke....");
+            // console.log(url);
 
             axios.get(url).then((response) => {
-                console.log(response.data);
+                // console.log(response.data);
                 req.userData = response.data;
                 next();
             }).catch((error) => {
